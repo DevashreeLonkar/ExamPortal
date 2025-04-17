@@ -11,4 +11,6 @@ public class Role {
 	@Id
 	private Long roleId;
 	private String roleName;
+	
+	//This is role entity
 }
