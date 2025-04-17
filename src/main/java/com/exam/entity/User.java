@@ -24,5 +24,5 @@ public class User {
 	private String phone;
 	private boolean enabled = true;
 	
-	private Set<UserRole> userRoles= new HashSet<UserRole>();
+	private Set<UserRole> userRoles= new HashSet<>();
 }

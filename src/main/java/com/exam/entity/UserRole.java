@@ -11,5 +11,6 @@ public class UserRole {
 	
 	//user
 	private User user;
+	
 
 }
