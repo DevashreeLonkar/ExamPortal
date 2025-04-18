@@ -3,12 +3,21 @@ package com.exam.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name="users")
 public class User {
@@ -24,5 +33,15 @@ public class User {
 	private String phone;
 	private boolean enabled = true;
 	
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Set<UserRole> userRoles= new HashSet<>();
+
+
+	public String getUserName() {
+		// TODO Auto-generated method stub
+		return username;
+	}
+	
 }
