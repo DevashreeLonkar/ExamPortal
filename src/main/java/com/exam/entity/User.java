@@ -32,6 +32,7 @@ public class User {
 	private String email;
 	private String phone;
 	private boolean enabled = true;
+	private String profile;
 	
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
