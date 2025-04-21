@@ -5,8 +5,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.exam.entity.User;
 import com.exam.entity.UserRole;
+import com.exam.entity.Users;
 import com.exam.repository.RoleRepository;
 import com.exam.repository.UserRepository;
 import com.exam.service.UserService;
@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService{
 	
 	//creating user
 	@Override
-	public User createUser(User user, Set<UserRole> userRoles) throws Exception {
+	public Users createUser(Users user, Set<UserRole> userRoles) throws Exception {
 		
-		User local= this.userRepository.findByUsername(user.getUserName());
+		Users local= this.userRepository.findByUsername(user.getUsername());
 		if(local !=null) {
 			System.out.println("User already there !!");
 			throw new Exception("User already present !!");
@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserService{
 
 	//getting user by username
 	@Override
-	public User getUser(String username) {
-		
+	public Users getUser(String username) {
 		return this.userRepository.findByUsername(username);
 	}
 	

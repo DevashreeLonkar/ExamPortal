@@ -2,9 +2,9 @@ package com.exam.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.exam.entity.User;
+import com.exam.entity.Users;
 
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<Users, Long>{
 
-	public User findByUsername(String username);
+	public Users findByUsername(String username);
 }

@@ -1,18 +1,10 @@
 package com.exam;
 
-import java.nio.file.attribute.UserDefinedFileAttributeView;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.exam.entity.Role;
-import com.exam.entity.User;
-import com.exam.entity.UserRole;
-import com.exam.repository.RoleRepository;
 import com.exam.service.UserService;
 
 @SpringBootApplication

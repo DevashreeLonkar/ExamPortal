@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.entity.Role;
-import com.exam.entity.User;
 import com.exam.entity.UserRole;
+import com.exam.entity.Users;
 import com.exam.service.UserService;
 
 @RestController
@@ -27,7 +27,7 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping("/")
-	public User createUser(@RequestBody User user) throws Exception {
+	public Users createUser(@RequestBody Users user) throws Exception {
 		
 		Set<UserRole> roles= new HashSet<>();
 		
@@ -47,7 +47,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/{username}")
-	public User getUser(@PathVariable("username") String username) {
+	public Users getUser(@PathVariable("username") String username) {
 		return this.userService.getUser(username);
 	}
 	
