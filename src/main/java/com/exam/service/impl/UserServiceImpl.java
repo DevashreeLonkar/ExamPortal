@@ -3,6 +3,7 @@ package com.exam.service.impl;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.exam.entity.UserRole;
@@ -20,6 +21,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	//creating user
 	@Override
 	public Users createUser(Users user, Set<UserRole> userRoles) throws Exception {
@@ -30,6 +34,8 @@ public class UserServiceImpl implements UserService{
 			throw new Exception("User already present !!");
 		}
 		else {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+
 			//create user
 			for(UserRole ur: userRoles) {
 				roleRepository.save(ur.getRole());
