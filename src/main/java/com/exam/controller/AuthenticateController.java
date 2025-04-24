@@ -93,8 +93,9 @@ public class AuthenticateController {
 	 
 	 //returns details of current user
 	 @GetMapping("/current-user")
-	 public User getCurrentUser(Principal principal) {
-		 return ((User) this.userDetailsService.loadUserByUsername(principal.getName()));
-		 
+	 public ResponseEntity<?> getCurrentUser(Principal principal) {
+	     UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+	     return ResponseEntity.ok(userDetails); // This will return username and roles
 	 }
+
 }

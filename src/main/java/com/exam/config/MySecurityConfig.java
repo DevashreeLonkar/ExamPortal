@@ -90,6 +90,7 @@ public class MySecurityConfig //extends WebSecurityConfiguration
         return http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/generate-token","/user/*").permitAll()
+                .requestMatchers("/current-user").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
