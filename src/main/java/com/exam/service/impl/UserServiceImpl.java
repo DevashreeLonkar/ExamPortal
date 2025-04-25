@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.exam.entity.UserRole;
 import com.exam.entity.Users;
+import com.exam.helper.UserFoundException;
 import com.exam.repository.RoleRepository;
 import com.exam.repository.UserRepository;
 import com.exam.service.UserService;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService{
 		Users local= this.userRepository.findByUsername(user.getUsername());
 		if(local !=null) {
 			System.out.println("User already there !!");
-			throw new Exception("User already present !!");
+			throw new UserFoundException();
 		}
 		else {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));

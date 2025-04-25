@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.exam.entity.Role;
 import com.exam.entity.UserRole;
 import com.exam.entity.Users;
+import com.exam.helper.UserFoundException;
 import com.exam.service.UserService;
 
 @SpringBootApplication
@@ -25,8 +26,9 @@ public class ExamserverApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
+//		try {
 		System.out.println("Starting Code");
-		
+//		
 //		Users user= new Users();
 //		
 //		user.setFirstName("Devashree");
@@ -48,6 +50,9 @@ public class ExamserverApplication implements CommandLineRunner{
 //		
 //		Users user1= this.userService.createUser(user, userRoleSet);
 //		System.out.println(user1.getUsername());
+//	}
+//	catch(UserFoundException e){
+//		e.printStackTrace();
+//	 }
 	}
-
 }
