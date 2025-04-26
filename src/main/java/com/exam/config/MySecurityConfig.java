@@ -89,7 +89,7 @@ public class MySecurityConfig //extends WebSecurityConfiguration
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/generate-token","/user/*").permitAll()
+                .requestMatchers("/generate-token","/user/*", "/user/current-user").permitAll()
                 .requestMatchers("/current-user").permitAll()
                 .anyRequest().authenticated()
             )
