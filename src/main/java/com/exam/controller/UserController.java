@@ -1,5 +1,6 @@
 package com.exam.controller;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,4 +60,10 @@ public class UserController {
 	public void deleteUser(@PathVariable("userId") Long userId) {
 		this.userService.deleteUser(userId);
 	}
+	
+	// ✅ NEW: get current user by token
+		@GetMapping("/current-user")
+		public Users getCurrentUser(Principal principal) {
+			return this.userService.getUser(principal.getName());
+		}
 }
