@@ -11,36 +11,41 @@ import com.exam.repository.QuizRepository;
 import com.exam.service.QuizService;
 
 @Service
-public class QuizServiceImpl implements QuizService{
+public class QuizServiceImpl implements QuizService {
 
-	@Autowired
-	private QuizRepository quizRepository;
-	
-	@Override
-	public Quiz addQuiz(Quiz quiz) {
-		return this.quizRepository.save(quiz);
-	}
+    @Autowired
+    private QuizRepository quizRepository;
 
-	@Override
-	public Quiz updateQuiz(Quiz quiz) {
-		return this.quizRepository.save(quiz);
-	}
+    @Override
+    public Quiz addQuiz(Quiz quiz) {
+        return this.quizRepository.save(quiz);
+    }
 
-	@Override
-	public Set<Quiz> getQuizes() {
-		return new HashSet<>(this.quizRepository.findAll());
-	}
+    @Override
+    public Quiz updateQuiz(Quiz quiz) {
+        return this.quizRepository.save(quiz);
+    }
 
-	@Override
-	public Quiz getQuiz(Long quizID) {
-		return this.quizRepository.findById(quizID).get();
-	}
+    @Override
+    public Set<Quiz> getQuizes() {
+        return new HashSet<>(this.quizRepository.findAll());
+    }
 
-	@Override
-	public void deleteQuiz(Long quizID) {
-		Quiz quiz= new Quiz();
-		quiz.setQId(quizID);
-		this.quizRepository.delete(quiz);
-	}
+    @Override
+    public Quiz getQuiz(Long quizID) {
+        Quiz quiz = this.quizRepository.findById(quizID)
+                         .orElseThrow(() -> new RuntimeException("Quiz not found with id: " + quizID));
 
+        // ✨ FORCE fetch questions inside the Quiz
+        quiz.getQuestions().size();  // <-- ADD THIS LINE
+
+        return quiz;
+    }
+
+    @Override
+    public void deleteQuiz(Long quizID) {
+        Quiz quiz = new Quiz();
+        quiz.setQId(quizID);
+        this.quizRepository.delete(quiz);
+    }
 }
