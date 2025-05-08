@@ -1,12 +1,15 @@
 package com.exam.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.exam.entity.exam.Question;
 import com.exam.entity.exam.Quiz;
+import com.exam.repository.QuestionRepository;
 import com.exam.repository.QuizRepository;
 import com.exam.service.QuizService;
 
@@ -16,6 +19,9 @@ public class QuizServiceImpl implements QuizService {
     @Autowired
     private QuizRepository quizRepository;
 
+    @Autowired 
+    private QuestionRepository questionRepository;
+    
     @Override
     public Quiz addQuiz(Quiz quiz) {
         return this.quizRepository.save(quiz);
@@ -33,12 +39,13 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz getQuiz(Long quizID) {
-        Quiz quiz = this.quizRepository.findById(quizID)
+        Quiz quiz = quizRepository.findById(quizID)
                          .orElseThrow(() -> new RuntimeException("Quiz not found with id: " + quizID));
-
+        List<Question> questions=questionRepository.findByQuesId(quiz.getQId());
+        System.out.println("------------->"+questions.size());
         // ✨ FORCE fetch questions inside the Quiz
-        quiz.getQuestions().size();  // <-- ADD THIS LINE
-
+//        quiz.getQuestions().size();  // <-- ADD THIS LINE
+        questions.size();
         return quiz;
     }
 
