@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.entity.exam.Question;
 import com.exam.entity.exam.Quiz;
+import com.exam.repository.QuestionRepository;
 import com.exam.service.QuestionService;
 import com.exam.service.QuizService;
 
@@ -33,6 +34,9 @@ public class QuestionController {
 	
 	@Autowired
 	private QuizService quizService;
+	
+	@Autowired
+	private QuestionRepository questionRepository;
 	
 		//add question 
 //		@PostMapping("/")
@@ -73,7 +77,8 @@ public class QuestionController {
 		@GetMapping("/quiz/{qid}")
 		public ResponseEntity<?> getQuestionsOfQuiz(@PathVariable("qid") Long qid) {
 		    Quiz quiz = this.quizService.getQuiz(qid);
-		    Set<Question> questions = quiz.getQuestions();
+		    List<Question> questions=questionRepository.findByQuesId(quiz.getQId());
+//		    Set<Question> questions = quiz.getQuestions();
 		    List<Question> list = new ArrayList<>(questions);
 
 		    int noOfQuestions = Integer.parseInt(quiz.getNumberOfQuestions());
@@ -84,6 +89,16 @@ public class QuestionController {
 		    return ResponseEntity.ok(list);
 		}
 
+		
+		@GetMapping("/quiz/all/{qid}")
+		public ResponseEntity<?> getQuestionsOfQuizAdmin(@PathVariable("qid") Long qid) {
+		    Quiz quiz = this.quizService.getQuiz(qid);
+
+		    List<Question> questions=questionRepository.findByQuesId(quiz.getQId());
+//		    Set<Question> questions = quiz.getQuestions();
+		    List<Question> list = new ArrayList<>(questions);
+		    return ResponseEntity.ok(questions);
+		}
 		
 		//get a single question
 		@GetMapping("/{quesId}")

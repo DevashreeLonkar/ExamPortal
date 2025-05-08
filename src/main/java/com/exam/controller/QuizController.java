@@ -45,7 +45,7 @@ public class QuizController {
 	//get single quiz
 	@GetMapping("/{qid}")
 	public Quiz quiz(@PathVariable("qid") Long qid) {
-		return this.quizService.getQuiz(qid);
+		return quizService.getQuiz(qid);
 	}
 	
 	//delete quiz
