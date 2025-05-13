@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.exam.entity.exam.Category;
 import com.exam.entity.exam.Question;
 import com.exam.entity.exam.Quiz;
 import com.exam.repository.QuestionRepository;
@@ -55,4 +56,9 @@ public class QuizServiceImpl implements QuizService {
 //        quiz.setQId(quizID);
         this.quizRepository.deleteById(quizID);
     }
+
+	@Override
+	public List<Quiz> getQuizzesOfCategory(Category category) {
+		return this.quizRepository.findBycategory(category);
+	}
 }
