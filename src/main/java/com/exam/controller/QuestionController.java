@@ -45,18 +45,18 @@ public class QuestionController {
 //		}
 	
 
-	@PostMapping("/")
-	public ResponseEntity<Question> add(@RequestBody Question question){
+	@PostMapping("/{qid}")
+	public ResponseEntity<Question> add(@RequestBody Question question,@PathVariable("qid") Long qid){
 	    try {
+	    	Quiz quiz = this.quizService.getQuiz(qid);
 	        // 1. Get the quiz id from incoming question
-	        Long quizId = question.getQuiz().getQId();
+//	        Long quizId = question.getQuiz().getQId();
 
 	        // 2. Fetch quiz from database (full object)
-	        Quiz quiz = this.quizService.getQuiz(quizId);
+//	        Quiz quiz = this.quizService.getQuiz(quizId);
 
 	        // 3. Set the full quiz back to question
 	        question.setQuiz(quiz);
-
 	        // 4. Now save
 	        Question savedQuestion = this.questionService.addQuestion(question);
 
@@ -94,7 +94,8 @@ public class QuestionController {
 		public ResponseEntity<?> getQuestionsOfQuizAdmin(@PathVariable("qid") Long qid) {
 		    Quiz quiz = this.quizService.getQuiz(qid);
 
-		    List<Question> questions=questionRepository.findByQuesId(quiz.getQId());
+//		    List<Question> questions=questionRepository.findByQuesId(quiz.getQId());
+		    List<Question> questions=questionRepository.findByQuiz(quiz);
 //		    Set<Question> questions = quiz.getQuestions();
 		    List<Question> list = new ArrayList<>(questions);
 		    return ResponseEntity.ok(questions);

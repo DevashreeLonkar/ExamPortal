@@ -1,5 +1,6 @@
 package com.exam.service;
 
+import java.util.List;
 import java.util.Set;
 
 import com.exam.entity.exam.Question;
@@ -15,7 +16,8 @@ public interface QuestionService {
 	
 	public Question getQuestion(Long questionId);
 	
-	public Set<Question> getQuestionsOfQuiz(Quiz quiz);
-
+//	public Set<Question> getQuestionsOfQuiz(Quiz quiz);
+	public List<Question> getQuestionsOfQuiz(Quiz quiz);
+	
 	public void deleteQuestion(Long quesId);
 }
