@@ -42,7 +42,8 @@ public class QuizServiceImpl implements QuizService {
     public Quiz getQuiz(Long quizID) {
         Quiz quiz = quizRepository.findById(quizID)
                          .orElseThrow(() -> new RuntimeException("Quiz not found with id: " + quizID));
-        List<Question> questions=questionRepository.findByQuesId(quiz.getQId());
+//        List<Question> questions=questionRepository.findByQuesId(quiz.getQId());
+        List<Question> questions=questionRepository.findByQuiz(quiz);
         System.out.println("------------->"+questions.size());
         // ✨ FORCE fetch questions inside the Quiz
 //        quiz.getQuestions().size();  // <-- ADD THIS LINE

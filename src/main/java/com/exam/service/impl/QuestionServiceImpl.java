@@ -1,6 +1,7 @@
 package com.exam.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,12 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
-	public Set<Question> getQuestionsOfQuiz(Quiz quiz) {
+//	public Set<Question> getQuestionsOfQuiz(Quiz quiz) {
+//		return this.questionRepository.findByQuiz(quiz);
+//	}
+	public List<Question> getQuestionsOfQuiz(Quiz quiz) {
 		return this.questionRepository.findByQuiz(quiz);
 	}
-
 	@Override
 	public void deleteQuestion(Long quesId) {
 		Question question= new Question();
