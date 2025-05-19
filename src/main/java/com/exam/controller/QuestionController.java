@@ -70,10 +70,20 @@ public class QuestionController {
 
 
 		//update question 
-		@PutMapping("/")
-		public ResponseEntity<Question> update(@RequestBody Question question){
-				return ResponseEntity.ok(this.questionService.addQuestion(question));
-		}
+//		@PutMapping("/")
+//		public ResponseEntity<Question> update(@RequestBody Question question){
+//				return ResponseEntity.ok(this.questionService.addQuestion(question));
+//		}
+	
+	@PutMapping("/")
+	public ResponseEntity<?> update(@RequestBody Question question) {
+	    Question existing = this.questionService.getQuestion(question.getQuesId());
+	    if (existing == null) {
+	        return ResponseEntity.status(404).body("Question not found");
+	    }
+	    return ResponseEntity.ok(this.questionService.updateQuestion(question));
+	}
+
 		
 		//get all questions of all qid
 		@GetMapping("/quiz/{qid}")
