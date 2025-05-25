@@ -1,11 +1,10 @@
 package com.exam.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.exam.entity.Users;
 import com.exam.entity.exam.Question;
 import com.exam.entity.exam.Quiz;
 import com.exam.repository.QuestionRepository;
 import com.exam.service.QuestionService;
 import com.exam.service.QuizService;
+import com.exam.service.UserService;
+import com.exam.utils.Util;
 
 @RestController
 @RequestMapping("/question")
@@ -39,6 +39,12 @@ public class QuestionController {
 	
 	@Autowired
 	private QuestionRepository questionRepository;
+	
+	@Autowired
+	private Util util;
+	
+	@Autowired
+	private UserService userService;
 	
 		//add question 
 //		@PostMapping("/")
@@ -127,13 +133,16 @@ public class QuestionController {
 		
 		//eval quiz
 		@PostMapping("/eval-quiz")
-		public ResponseEntity<?> evalQuiz(@RequestBody List<Question> questions){
+		public ResponseEntity<?> evalQuiz(@RequestBody List<Question> questions,Principal principal){
 			System.out.println(questions);
+			Users users=userService.getUser(principal.getName());
 			  double marksGot=0;
 			  int correctAnswers=0;
 			  int attempted=0;
+			  String quizName = null;
 			for(Question q: questions){
 				//System.out.println(q.getGivenAnswer());
+				quizName=q.getQuiz().getTitle();
 				Question question= this.questionService.get(q.getQuesId());
 				if(question.getAnswer().equals(q.getGivenAnswer())) {
 					correctAnswers++;
@@ -147,6 +156,40 @@ public class QuestionController {
 			};
 			
 			Map<String,Object> map= Map.of("marksGot", marksGot, "correctAnswers", correctAnswers, "attempted", attempted);
+//			String body = "Dear "+users.getFirstName() +",\n You have marksGot "+marksGot +" correctAnswers "+correctAnswers +" attempted "+attempted +".";
+//			String body = """
+//			        <html>
+//			        <body>
+//			            <h2>Dear %s,</h2>
+//			            <p>You have completed the quiz with the following results:</p>
+//			            <ul>
+//			                <li><b>Marks Got:</b> %.2f</li>
+//			                <li><b>Correct Answers:</b> %d</li>
+//			                <li><b>Attempted Questions:</b> %d</li>
+//			            </ul>
+//			            <p>Thank you for participating!</p>
+//			        </body>
+//			        </html>
+//			        """.formatted(users.getFirstName(), marksGot, correctAnswers, attempted);
+			String body = """
+					<html>
+					<body style="background-color:#e0ffe0; padding:20px; font-family:Arial, sans-serif;">
+					    <div style="text-align:center; font-size:24px; font-weight:bold; color:green; margin-bottom:20px;">
+					        🎉 Congratulations! 🎉
+					    </div>
+					    <h2>Dear %s,</h2>
+					    <p>You have completed the quiz with the following results:</p>
+					    <ul>
+					        <li><b>Marks Got:</b> %.2f</li>
+					        <li><b>Correct Answers:</b> %d</li>
+					        <li><b>Attempted Questions:</b> %d</li>
+					    </ul>
+					    <p>Thank you for participating!</p>
+					</body>
+					</html>
+					""".formatted(users.getFirstName(), marksGot, correctAnswers, attempted);
+
+			util.sendEmail(users.getEmail(), "Your Result of "+quizName, body);
 			return ResponseEntity.ok(map);
 		}
 }
